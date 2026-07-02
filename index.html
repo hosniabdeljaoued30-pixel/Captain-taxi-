@@ -2,9 +2,15 @@
 <html>
 <head>
     <title>لوحة تحكم كابتن تاكسي</title>
-</head>
-<body>
-    <h1>مرحباً بك كابتن</h1>
-    <p>جاري تحميل البيانات...</p>
-</body>
-</html>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        </head>
+        <body>
+            <h1>مرحباً بك في لوحة تحكم كابتن تاكسي</h1>
+                <script>
+                        const supabaseUrl = 'https://htzwofpltvamqbmrkjrt.supabase.co';
+                                const supabaseKey = 'Sb_publishable_dLmIwezvSGTTu_CCh4b2RQ_Bc6kv7dM';
+                                        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+                                                console.log("تم الاتصال بـ Supabase بنجاح!");
+                                                    </script>
+                                                    </body>
+                                                    </html>
