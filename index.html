@@ -13,7 +13,7 @@
                                             <body>
                                                 <h1>إضافة رحلة جديدة</h1>
                                                     <form id="tripForm">
-                                                            <input type="text" id="driverName" placeholder="اسم الكابتن" required><br><br>
+                                                            <input type="text" id="captain-Name" placeholder="اسم الكابتن" required><br><br>
                                                                     <select id="startPoint">
                                                                                 <option value="حي النور">حي النور</option>
                                                                                             <option value="وسط المدينة">وسط المدينة</option>
@@ -68,7 +68,47 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 e.preventDefault();
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             const { error } = await supabase.from('trips').insert([{ 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             driver_name: document.getElementById('driverName').value, 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            start_point: document.getElementById('startPoint').value, 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <script>
+    // تهيئة الاتصال (استخدم المفتاح الجديد الخاص بك)
+    const supabaseUrl = 'رابط_مشروعك_هنا';
+    const supabaseKey = 'مفتاح_trips_key_الجديد';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // دالة إضافة رحلة
+    async function addTrip() {
+        const captain = document.getElementById('captain-name').value;
+        const origin = document.getElementById('origin').value;
+        const destination = document.getElementById('destination').value;
+        const cost = document.getElementById('cost').value;
+
+        const { data, error } = await supabase
+            .from('trips')
+            .insert([{ captain_name: captain, origin: origin, destination: destination, cost: cost }]);
+
+        if (error) {
+            console.error("خطأ أثناء الإرسال:", error);
+            alert("حدث خطأ!");
+        } else {
+            alert("تم إضافة الرحلة بنجاح!");
+            location.reload(); // لتحديث الصفحة وإظهار الرحلة الجديدة
+        }
+    }
+</script>async function loadTrips() {
+    const { data, error } = await supabase.from('trips').select('*');
+    if (data) {
+        const tbody = document.querySelector('tbody'); // افترضت أن لديك tbody في جدولك
+        data.forEach(trip => {
+            const row = `<tr>
+                <td>${trip.captain_name}</td>
+                <td>${trip.origin}</td>
+                <td>${trip.destination}</td>
+                <td>${trip.cost}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+    }
+}
+loadTrips();     start_point: document.getElementById('startPoint').value, 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             destination: document.getElementById('destination').value, 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             cost: document.getElementById('cost').value 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }]);
