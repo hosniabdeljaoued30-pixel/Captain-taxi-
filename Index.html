@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>كابتن تاكسي</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        input { display: block; margin-bottom: 10px; width: 100%; padding: 8px; }
+    </style>
+</head>
+<body>
+    <h2>إضافة رحلة جديدة</h2>
+    <input type="text" id="captain-name" placeholder="اسم الكابتن">
+    <input type="text" id="startPoint" placeholder="الانطلاق">
+    <input type="text" id="destination" placeholder="الوجهة">
+    <input type="number" id="cost" placeholder="التكلفة">
+    <button onclick="addTrip()">إرسال البيانات</button>
+    <h2>سجل الرحلات</h2>
+    <table>
+        <thead><tr><th>الكابتن</th><th>الانطلاق</th><th>الوجهة</th><th>التكلفة</th></tr></thead>
+        <tbody id="trips-table"></tbody>
+    </table>
+    <script>
+        const supabaseUrl = 'انسخ_رابط_المشروع_هنا';
+        const supabaseKey = 'انسخ_مفتاح_trips_key_هنا';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        async function addTrip() {
+            const { error } = await supabase.from('trips').insert([{
+                captain_name: document.getElementById('captain-name').value,
+                origin: document.getElementById('startPoint').value,
+                destination: document.getElementById('destination').value,
+                cost: document.getElementById('cost').value
+            }]);
+            if (error) { alert('خطأ: ' + error.message); } else { alert('تمت الإضافة!'); location.reload(); }
+        }
+        async function fetchTrips() {
+            const { data } = await supabase.from('trips').select('*');
+            const tbody = document.getElementById('trips-table');
+            if (data) {
+                tbody.innerHTML = data.map(t => `<tr><td>${t.captain_name || ''}</td><td>${t.origin || ''}</td><td>${t.destination || ''}</td><td>${t.cost || ''}</td></tr>`).join('');
+            }
+        }
+        fetchTrips();
+    </script>
+</body>
+</html>
